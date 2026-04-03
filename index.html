@@ -19,147 +19,57 @@
     --text: #f1f5f9;
     --muted: #64748b;
     --subtle: #94a3b8;
-    --treino: #3b82f6;
-    --treino-bg: #1e3a5f;
-    --diss: #a78bfa;
-    --diss-bg: #2e1b5e;
-    --aula: #fbbf24;
-    --aula-bg: #3d2d00;
-    --trab: #64748b;
-    --trab-bg: #1e293b;
-    --green: #4ade80;
-    --red: #f87171;
-    --yellow: #fbbf24;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
   body {
-    background: var(--bg);
-    color: var(--text);
+    background: var(--bg); color: var(--text);
     font-family: 'DM Sans', sans-serif;
     min-height: 100dvh;
     padding: env(safe-area-inset-top, 16px) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
   }
-
   .app { max-width: 480px; margin: 0 auto; padding: 20px 16px 100px; }
-
-  /* Header */
   .header { margin-bottom: 20px; }
-  .header h1 {
-    font-size: 22px; font-weight: 800; letter-spacing: -0.03em;
-    color: var(--text);
-  }
+  .header h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.03em; }
   .header-sub { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 2px; }
-
-  /* Stats */
   .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-  .stat-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 12px 14px;
-  }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
   .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
   .stat-pct { font-size: 28px; font-weight: 800; line-height: 1; font-family: 'DM Mono', monospace; }
   .stat-detail { font-size: 11px; color: var(--muted); margin-top: 3px; }
-
-  /* Alert */
-  .alert {
-    background: #1e1040; border: 1px solid #6d28d9;
-    border-radius: 10px; padding: 10px 14px;
-    font-size: 12px; color: #c4b5fd; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 8px;
-  }
+  .alert { background: #1e1040; border: 1px solid #6d28d9; border-radius: 10px; padding: 10px 14px; font-size: 12px; color: #c4b5fd; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 8px; }
   .alert strong { color: #ddd6fe; }
-
-  /* Legend */
   .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--muted); }
   .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
-
-  /* Week label */
-  .week-label {
-    font-size: 10px; font-weight: 700; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.1em;
-    margin-bottom: 7px; font-family: 'DM Mono', monospace;
-  }
-
-  /* Grid */
-  .week-grid {
-    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
-    margin-bottom: 10px;
-  }
-
-  .day-cell {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: 10px; padding: 7px 5px;
-    cursor: pointer; min-height: 70px;
-    display: flex; flex-direction: column; gap: 3px;
-    transition: border-color 0.15s, background 0.15s;
-    user-select: none;
-  }
-  .day-cell.today { border-color: var(--treino); background: #172033; }
+  .week-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 7px; font-family: 'DM Mono', monospace; }
+  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 10px; }
+  .day-cell { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 7px 5px; cursor: pointer; min-height: 70px; display: flex; flex-direction: column; gap: 3px; transition: border-color 0.15s, background 0.15s; user-select: none; }
+  .day-cell.today { border-color: #3b82f6; background: #172033; }
   .day-cell.selected { background: #273549; border-color: #475569; }
-  .day-cell.fds .day-name { color: var(--treino) !important; }
-
-  .day-name {
-    font-size: 9px; font-weight: 700; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.06em;
-    font-family: 'DM Mono', monospace;
-  }
-  .day-num {
-    font-size: 17px; font-weight: 800; line-height: 1; color: var(--text);
-  }
-  .day-cell.today .day-num { color: var(--treino); }
-  .day-cell.selected .day-num { color: var(--subtle); }
-
+  .day-cell.fds .day-name { color: #3b82f6 !important; }
+  .day-name { font-size: 9px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-family: 'DM Mono', monospace; }
+  .day-num { font-size: 17px; font-weight: 800; line-height: 1; }
+  .day-cell.today .day-num { color: #3b82f6; }
   .day-dots { display: flex; flex-wrap: wrap; gap: 3px; margin-top: auto; }
-  .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    border: 1.5px solid transparent;
-    flex-shrink: 0;
-  }
-  .dot.feito  { }
-  .dot.planejado { background: transparent !important; }
-  .dot.perdido { background: transparent !important; opacity: 0.3; }
-
-  /* Detail panel */
-  .detail {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 14px; padding: 16px; margin-top: 6px;
-  }
-  .detail-title {
-    font-size: 13px; font-weight: 700; color: var(--text);
-    margin-bottom: 12px; font-family: 'DM Mono', monospace;
-  }
-  .block-row {
-    display: flex; align-items: center; gap: 10px;
-    border-radius: 9px; padding: 10px 11px; margin-bottom: 7px;
-    cursor: pointer; transition: opacity 0.15s;
-    user-select: none;
-  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid transparent; flex-shrink: 0; }
+  .detail { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-top: 6px; }
+  .detail-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; font-family: 'DM Mono', monospace; }
+  .block-row { display: flex; align-items: center; gap: 10px; border-radius: 9px; padding: 10px 11px; margin-bottom: 7px; cursor: pointer; transition: opacity 0.15s; user-select: none; }
   .block-row.perdido { opacity: 0.45; }
-
-  .block-icon {
-    width: 32px; height: 32px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 9px; font-weight: 800; color: #fff; flex-shrink: 0;
-    font-family: 'DM Mono', monospace;
-  }
+  .block-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; color: #fff; flex-shrink: 0; font-family: 'DM Mono', monospace; }
   .block-info { flex: 1; min-width: 0; }
   .block-type { font-size: 12px; font-weight: 700; }
   .block-note { font-size: 11px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 1px; }
-  .block-status {
-    font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; flex-shrink: 0;
-    font-family: 'DM Mono', monospace;
-  }
-  .status-feito    { background: #14532d; color: #4ade80; }
-  .status-planejado{ background: #1e293b; color: var(--muted); }
-  .status-perdido  { background: #450a0a; color: #f87171; }
-
+  .block-status { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; flex-shrink: 0; font-family: 'DM Mono', monospace; }
+  .status-feito { background: #14532d; color: #4ade80; }
+  .status-planejado { background: var(--surface); color: var(--muted); }
+  .status-perdido { background: #450a0a; color: #f87171; }
   .detail-hint { font-size: 10px; color: var(--border); text-align: right; margin-top: 4px; }
   .empty-day { color: var(--muted); font-size: 12px; text-align: center; padding: 16px 0; }
-
-  /* Footer */
   .footer { font-size: 10px; color: var(--border); text-align: center; margin-top: 20px; font-family: 'DM Mono', monospace; }
+  .sync-bar { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; text-align: center; padding: 6px; background: var(--surface); border-radius: 8px; margin-bottom: 16px; }
+  .sync-bar.ok { color: #4ade80; }
+  .sync-bar.stale { color: #fbbf24; }
 </style>
 </head>
 <body>
@@ -168,15 +78,13 @@
     <h1>Secretário</h1>
     <div class="header-sub" id="headerSub">carregando...</div>
   </div>
+  <div class="sync-bar" id="syncBar">carregando dados...</div>
   <div class="stats" id="stats"></div>
-  <div class="alert">
-    <span>🎯</span>
-    <span><strong>Seg 6/abr:</strong> pergunta de pesquisa + primeiros scripts</span>
-  </div>
+  <div id="alertsContainer"></div>
   <div class="legend" id="legend"></div>
   <div id="weeksContainer"></div>
   <div class="detail" id="detail"></div>
-  <div class="footer">dados salvos localmente no iPhone</div>
+  <div class="footer">atualizado via Claude Code · secretarioclaude.netlify.app</div>
 </div>
 
 <script>
@@ -186,76 +94,70 @@ const BLOCKS = {
   aula:        { label:'Aula',        short:'AUL', color:'#fbbf24', bg:'#3d2d00', text:'#fde68a' },
   trabalho:    { label:'Trabalho',    short:'TRB', color:'#64748b', bg:'#1e293b', text:'#94a3b8' },
 };
-
 const STATUS_CYCLE = ['planejado','feito','perdido'];
 const DIAS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
 const DIAS_FULL = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'];
 const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-const TODAY = '2026-04-03';
 
-function getDefaultPlan() {
-  return {
-    '2026-04-03': [{id:'a0',type:'treino',note:'Ombro/peito/tríceps + 10min cardio',status:'feito'},{id:'a1',type:'dissertacao',note:'Cap.8 livro Weller (Lula 2/Dilma)',status:'feito'}],
-    '2026-04-04': [{id:'b0',type:'treino',note:'FDS manhã',status:'planejado'},{id:'b1',type:'dissertacao',note:'Bloco de estudo',status:'planejado'}],
-    '2026-04-05': [{id:'c0',type:'treino',note:'FDS manhã',status:'planejado'},{id:'c1',type:'dissertacao',note:'Definir pergunta + scripts',status:'planejado'}],
-    '2026-04-06': [{id:'d0',type:'trabalho',note:'Presencial 9–18:30',status:'planejado'},{id:'d1',type:'treino',note:'Pós-trabalho ~19h',status:'planejado'}],
-    '2026-04-07': [{id:'e0',type:'trabalho',note:'HO 9–18:30',status:'planejado'},{id:'e1',type:'aula',note:'Macro financeira 19:30',status:'planejado'}],
-    '2026-04-08': [{id:'f0',type:'trabalho',note:'Presencial 9–18:30',status:'planejado'},{id:'f1',type:'aula',note:'Técnica de pesquisa 19:30',status:'planejado'}],
-    '2026-04-09': [{id:'g0',type:'trabalho',note:'Presencial 9–18:30',status:'planejado'},{id:'g1',type:'aula',note:'Project finance 19:30',status:'planejado'}],
-    '2026-04-10': [{id:'h0',type:'trabalho',note:'HO 9–18:30',status:'planejado'},{id:'h1',type:'treino',note:'Pós-trabalho',status:'planejado'}],
-    '2026-04-11': [{id:'i0',type:'treino',note:'FDS manhã',status:'planejado'},{id:'i1',type:'dissertacao',note:'Bloco de estudo',status:'planejado'}],
-    '2026-04-12': [{id:'j0',type:'trabalho',note:'Casamento (social)',status:'planejado'}],
-    '2026-04-13': [{id:'k0',type:'treino',note:'FDS manhã',status:'planejado'}],
-    '2026-04-14': [{id:'l0',type:'trabalho',note:'Presencial 9–18:30',status:'planejado'},{id:'l1',type:'treino',note:'Pós-trabalho ~19h',status:'planejado'}],
-    '2026-04-15': [{id:'m0',type:'trabalho',note:'HO 9–18:30',status:'planejado'},{id:'m1',type:'aula',note:'Macro financeira 19:30',status:'planejado'}],
-    '2026-04-16': [{id:'n0',type:'trabalho',note:'Presencial 9–18:30',status:'planejado'},{id:'n1',type:'aula',note:'Técnica de pesquisa (confirmar)',status:'planejado'}],
-  };
-}
-
-let plan = {};
-let selected = TODAY;
-
-function loadPlan() {
-  try {
-    const saved = localStorage.getItem('secretario-plan-v1');
-    plan = saved ? JSON.parse(saved) : getDefaultPlan();
-  } catch { plan = getDefaultPlan(); }
-}
-
-function savePlan() {
-  try { localStorage.setItem('secretario-plan-v1', JSON.stringify(plan)); } catch {}
-}
+let planData = null;
+let selected = null;
 
 function getDow(dateStr) {
-  const d = new Date(dateStr + 'T12:00:00');
-  return (d.getDay() + 6) % 7;
+  return (new Date(dateStr + 'T12:00:00').getDay() + 6) % 7;
 }
 
-function buildWeeks() {
-  const weeks = [];
-  for (let w = 0; w < 2; w++) {
-    const week = [];
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(TODAY + 'T12:00:00');
-      d.setDate(d.getDate() + w*7 + i);
-      const key = d.toISOString().slice(0,10);
-      week.push({ key, d, blocks: plan[key] || [] });
-    }
-    weeks.push(week);
+function getToday() {
+  const d = new Date();
+  return d.toISOString().slice(0,10);
+}
+
+async function loadPlan() {
+  const syncBar = document.getElementById('syncBar');
+  try {
+    const resp = await fetch('./plan.json?t=' + Date.now());
+    if (!resp.ok) throw new Error('fetch failed');
+    planData = await resp.json();
+    localStorage.setItem('secretario-cache', JSON.stringify(planData));
+    syncBar.textContent = '● sincronizado com servidor';
+    syncBar.className = 'sync-bar ok';
+  } catch (e) {
+    try {
+      const cached = localStorage.getItem('secretario-cache');
+      if (cached) {
+        planData = JSON.parse(cached);
+        syncBar.textContent = '● offline (dados em cache)';
+        syncBar.className = 'sync-bar stale';
+      }
+    } catch {}
   }
-  return weeks;
+  if (!planData) {
+    syncBar.textContent = '✕ sem dados';
+    return;
+  }
+  const dates = Object.keys(planData.days).sort();
+  const today = getToday();
+  selected = dates.includes(today) ? today : dates[0];
+  render();
+}
+
+function render() {
+  renderStats();
+  renderAlerts();
+  renderLegend();
+  renderWeeks();
+  renderDetail();
+  updateHeader();
 }
 
 function renderStats() {
   let tF=0,tT=0,dF=0,dT=0;
-  Object.values(plan).forEach(blocks => blocks.forEach(b => {
-    if (b.type==='treino')      { tT++; if(b.status==='feito') tF++; }
+  Object.values(planData.days).forEach(blocks => blocks.forEach(b => {
+    if (b.type==='treino') { tT++; if(b.status==='feito') tF++; }
     if (b.type==='dissertacao') { dT++; if(b.status==='feito') dF++; }
   }));
   const pct = (f,t) => t ? Math.round(f/t*100) : null;
   const col = p => p===null?'#64748b':p>=70?'#4ade80':p>=40?'#fbbf24':'#f87171';
   const tp = pct(tF,tT), dp = pct(dF,dT);
-
   document.getElementById('stats').innerHTML = `
     <div class="stat-card">
       <div class="stat-label">Treino</div>
@@ -266,8 +168,15 @@ function renderStats() {
       <div class="stat-label">Dissertação</div>
       <div class="stat-pct" style="color:${col(dp)}">${dp!==null?dp+'%':'--'}</div>
       <div class="stat-detail">${dF}/${dT} blocos</div>
-    </div>
-  `;
+    </div>`;
+}
+
+function renderAlerts() {
+  const c = document.getElementById('alertsContainer');
+  if (!planData.alerts || !planData.alerts.length) { c.innerHTML = ''; return; }
+  c.innerHTML = planData.alerts.map(a =>
+    `<div class="alert"><span>🎯</span><span>${a}</span></div>`
+  ).join('');
 }
 
 function renderLegend() {
@@ -277,7 +186,12 @@ function renderLegend() {
 }
 
 function renderWeeks() {
-  const weeks = buildWeeks();
+  const dates = Object.keys(planData.days).sort();
+  const weeks = [];
+  for (let i = 0; i < dates.length; i += 7) {
+    weeks.push(dates.slice(i, i + 7));
+  }
+  const today = getToday();
   const container = document.getElementById('weeksContainer');
   container.innerHTML = '';
 
@@ -290,11 +204,13 @@ function renderWeeks() {
     const grid = document.createElement('div');
     grid.className = 'week-grid';
 
-    week.forEach(({ key, d, blocks }) => {
+    week.forEach(key => {
+      const d = new Date(key + 'T12:00:00');
       const dow = getDow(key);
       const isFDS = dow >= 5;
-      const isToday = key === TODAY;
+      const isToday = key === today;
       const isSel = key === selected;
+      const blocks = planData.days[key] || [];
 
       const cell = document.createElement('div');
       cell.className = `day-cell${isToday?' today':''}${isSel?' selected':''}${isFDS?' fds':''}`;
@@ -302,38 +218,28 @@ function renderWeeks() {
       const dots = ['treino','dissertacao','aula','trabalho'].map(type => {
         const b = blocks.find(x => x.type===type);
         if (!b) return '';
-        const bc = BLOCKS[type].color;
         const filled = b.status==='feito';
         const lost = b.status==='perdido';
-        return `<div class="dot ${b.status}" style="background:${filled?bc:'transparent'};border-color:${lost?'#334155':bc};"></div>`;
+        return `<div class="dot" style="background:${filled?BLOCKS[type].color:'transparent'};border-color:${lost?'#334155':BLOCKS[type].color};${lost?'opacity:0.3':''}"></div>`;
       }).join('');
 
       cell.innerHTML = `
         <div class="day-name">${DIAS[dow]}</div>
         <div class="day-num">${d.getDate()}</div>
-        <div class="day-dots">${dots}</div>
-      `;
-
-      cell.addEventListener('click', () => {
-        selected = key;
-        renderWeeks();
-        renderDetail();
-      });
-
+        <div class="day-dots">${dots}</div>`;
+      cell.addEventListener('click', () => { selected = key; renderWeeks(); renderDetail(); });
       grid.appendChild(cell);
     });
-
     container.appendChild(grid);
   });
 }
 
 function renderDetail() {
-  const blocks = plan[selected] || [];
+  const blocks = planData.days[selected] || [];
   const d = new Date(selected + 'T12:00:00');
   const dow = getDow(selected);
 
   let html = `<div class="detail-title">${DIAS_FULL[dow]}, ${d.getDate()} ${MESES[d.getMonth()]}</div>`;
-
   if (!blocks.length) {
     html += '<div class="empty-day">Dia livre</div>';
   } else {
@@ -351,10 +257,9 @@ function renderDetail() {
           <div class="block-status status-${s}">
             ${s==='feito'?'✓ feito':s==='perdido'?'✕ falhou':'pendente'}
           </div>
-        </div>
-      `;
+        </div>`;
     });
-    html += '<div class="detail-hint">toque para alternar status</div>';
+    html += '<div class="detail-hint">toque para alternar · salva localmente até próximo sync</div>';
   }
 
   const detail = document.getElementById('detail');
@@ -364,33 +269,25 @@ function renderDetail() {
     row.addEventListener('click', () => {
       const dateKey = row.dataset.date;
       const blockId = row.dataset.id;
-      const i = plan[dateKey].findIndex(b => b.id === blockId);
-      if (i === -1) return;
-      const cur = STATUS_CYCLE.indexOf(plan[dateKey][i].status);
-      plan[dateKey][i].status = STATUS_CYCLE[(cur+1)%3];
-      savePlan();
-      renderStats();
-      renderWeeks();
-      renderDetail();
+      const block = planData.days[dateKey].find(b => b.id === blockId);
+      if (!block) return;
+      const cur = STATUS_CYCLE.indexOf(block.status);
+      block.status = STATUS_CYCLE[(cur+1)%3];
+      localStorage.setItem('secretario-cache', JSON.stringify(planData));
+      render();
     });
   });
 }
 
 function updateHeader() {
-  const weeks = buildWeeks();
-  const first = weeks[0][0].d;
-  const last  = weeks[1][6].d;
+  const dates = Object.keys(planData.days).sort();
+  const first = new Date(dates[0] + 'T12:00:00');
+  const last = new Date(dates[dates.length-1] + 'T12:00:00');
   document.getElementById('headerSub').textContent =
     `${first.getDate()} ${MESES[first.getMonth()]} – ${last.getDate()} ${MESES[last.getMonth()]} · toque num dia`;
 }
 
-// Init
 loadPlan();
-renderStats();
-renderLegend();
-renderWeeks();
-renderDetail();
-updateHeader();
 </script>
 </body>
 </html>
