@@ -10,6 +10,7 @@
 <title>Secretário</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async></script>
 <style>
   :root {
     --bg: #0f172a;
@@ -67,9 +68,32 @@
   .detail-hint { font-size: 10px; color: var(--border); text-align: right; margin-top: 4px; }
   .empty-day { color: var(--muted); font-size: 12px; text-align: center; padding: 16px 0; }
   .footer { font-size: 10px; color: var(--border); text-align: center; margin-top: 20px; font-family: 'DM Mono', monospace; }
-  .sync-bar { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; text-align: center; padding: 6px; background: var(--surface); border-radius: 8px; margin-bottom: 16px; }
+  .sync-bar { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; text-align: center; padding: 6px; background: var(--surface); border-radius: 8px; margin-bottom: 8px; }
   .sync-bar.ok { color: #4ade80; }
   .sync-bar.stale { color: #fbbf24; }
+
+  /* Google */
+  .google-bar { text-align: center; margin-bottom: 16px; }
+  .g-btn { background: #1e293b; border: 1px solid #334155; color: #94a3b8; font-size: 11px; font-family: 'DM Mono', monospace; padding: 7px 14px; border-radius: 8px; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
+  .g-btn:hover { border-color: #4ade80; color: #4ade80; }
+  .g-connected { font-size: 10px; font-family: 'DM Mono', monospace; color: #4ade80; }
+
+  /* Calendar events */
+  .cal-section { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 12px; }
+  .cal-section-title { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; font-family: 'DM Mono', monospace; }
+  .cal-event { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; background: #0f1f38; border: 1px solid #1e3a5f; border-radius: 8px; margin-bottom: 6px; }
+  .cal-time { font-size: 10px; font-family: 'DM Mono', monospace; color: #60a5fa; flex-shrink: 0; padding-top: 1px; }
+  .cal-name { font-size: 12px; color: var(--text); }
+  .cal-empty { font-size: 11px; color: var(--muted); text-align: center; padding: 8px 0; }
+
+  /* Gmail */
+  .gmail-section { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-top: 12px; display: none; }
+  .gmail-section-title { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; font-family: 'DM Mono', monospace; }
+  .gmail-item { padding: 9px 11px; background: #0f1a2e; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
+  .gmail-from { font-size: 11px; font-weight: 700; color: var(--subtle); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .gmail-subject { font-size: 12px; color: var(--text); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .gmail-empty { font-size: 11px; color: var(--muted); text-align: center; padding: 8px 0; }
+  .gmail-loading { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; text-align: center; padding: 8px 0; }
 </style>
 </head>
 <body>
@@ -79,11 +103,16 @@
     <div class="header-sub" id="headerSub">carregando...</div>
   </div>
   <div class="sync-bar" id="syncBar">carregando dados...</div>
+  <div class="google-bar" id="googleBar"></div>
   <div class="stats" id="stats"></div>
   <div id="alertsContainer"></div>
   <div class="legend" id="legend"></div>
   <div id="weeksContainer"></div>
   <div class="detail" id="detail"></div>
+  <div class="gmail-section" id="gmailSection">
+    <div class="gmail-section-title">Gmail · não lidos</div>
+    <div id="gmailList"><div class="gmail-loading">carregando...</div></div>
+  </div>
   <div class="footer">atualizado via Claude Code · secretarioclaude.netlify.app</div>
 </div>
 
@@ -227,7 +256,12 @@ function renderWeeks() {
         <div class="day-name">${DIAS[dow]}</div>
         <div class="day-num">${d.getDate()}</div>
         <div class="day-dots">${dots}</div>`;
-      cell.addEventListener('click', () => { selected = key; renderWeeks(); renderDetail(); });
+      cell.addEventListener('click', () => {
+        selected = key;
+        renderWeeks();
+        renderDetail();
+        fetchCalendarEvents(key);
+      });
       grid.appendChild(cell);
     });
     container.appendChild(grid);
@@ -262,6 +296,11 @@ function renderDetail() {
     html += '<div class="detail-hint">toque para alternar · salva localmente até próximo sync</div>';
   }
 
+  html += `<div class="cal-section">
+    <div class="cal-section-title">Google Calendar</div>
+    <div id="calendarEvents"><div class="cal-empty" style="color:var(--border);font-size:10px;font-family:\'DM Mono\',monospace;">conecte o Google para ver eventos</div></div>
+  </div>`;
+
   const detail = document.getElementById('detail');
   detail.innerHTML = html;
 
@@ -277,6 +316,8 @@ function renderDetail() {
       render();
     });
   });
+
+  if (gToken) fetchCalendarEvents(selected);
 }
 
 function updateHeader() {
@@ -288,6 +329,139 @@ function updateHeader() {
 }
 
 loadPlan();
+
+/* ── Google Integration ─────────────────────────────── */
+
+const CLIENT_ID = '989725714545-ahe1p73smsvkpp42gal4vnh5d3hjka2c.apps.googleusercontent.com';
+const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/gmail.readonly';
+
+let tokenClient;
+let gToken = sessionStorage.getItem('g-token') || null;
+
+function initGoogleAuth() {
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
+    scope: SCOPES,
+    callback: (resp) => {
+      if (resp.error) { console.error(resp); return; }
+      gToken = resp.access_token;
+      sessionStorage.setItem('g-token', gToken);
+      onSignedIn();
+    },
+  });
+
+  if (gToken) {
+    onSignedIn();
+  } else {
+    renderGoogleBar(false);
+  }
+}
+
+function signIn() {
+  tokenClient.requestAccessToken({ prompt: '' });
+}
+
+function onSignedIn() {
+  renderGoogleBar(true);
+  if (selected) fetchCalendarEvents(selected);
+  fetchGmail();
+}
+
+function renderGoogleBar(connected) {
+  const bar = document.getElementById('googleBar');
+  if (connected) {
+    bar.innerHTML = '<span class="g-connected">● Google conectado</span>';
+  } else {
+    bar.innerHTML = '<button class="g-btn" onclick="signIn()">Conectar Google Calendar + Gmail</button>';
+  }
+}
+
+async function gFetch(url) {
+  const resp = await fetch(url, { headers: { Authorization: `Bearer ${gToken}` } });
+  if (resp.status === 401) {
+    gToken = null;
+    sessionStorage.removeItem('g-token');
+    renderGoogleBar(false);
+    throw new Error('token expirado');
+  }
+  return resp.json();
+}
+
+async function fetchCalendarEvents(dateStr) {
+  if (!gToken || !dateStr) return;
+  const calEl = document.getElementById('calendarEvents');
+  if (!calEl) return;
+  calEl.innerHTML = '<div class="cal-empty" style="font-size:10px;font-family:\'DM Mono\',monospace;">carregando...</div>';
+
+  const start = new Date(dateStr + 'T00:00:00').toISOString();
+  const end   = new Date(dateStr + 'T23:59:59').toISOString();
+
+  try {
+    const data = await gFetch(
+      `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${encodeURIComponent(start)}&timeMax=${encodeURIComponent(end)}&singleEvents=true&orderBy=startTime`
+    );
+    const events = data.items || [];
+    if (!events.length) {
+      calEl.innerHTML = '<div class="cal-empty">Nenhum evento</div>';
+      return;
+    }
+    calEl.innerHTML = events.map(e => {
+      const time = e.start?.dateTime
+        ? new Date(e.start.dateTime).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+        : 'dia todo';
+      return `<div class="cal-event">
+        <span class="cal-time">${time}</span>
+        <span class="cal-name">${e.summary || 'Sem título'}</span>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    if (calEl) calEl.innerHTML = '<div class="cal-empty">Erro ao carregar</div>';
+  }
+}
+
+async function fetchGmail() {
+  if (!gToken) return;
+  const section = document.getElementById('gmailSection');
+  const list    = document.getElementById('gmailList');
+  section.style.display = 'block';
+  list.innerHTML = '<div class="gmail-loading">carregando...</div>';
+
+  try {
+    const data = await gFetch(
+      'https://www.googleapis.com/gmail/v1/users/me/messages?q=is:unread&maxResults=5'
+    );
+    if (!data.messages?.length) {
+      list.innerHTML = '<div class="gmail-empty">Nenhum email não lido</div>';
+      return;
+    }
+    const details = await Promise.all(
+      data.messages.map(m =>
+        gFetch(`https://www.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject`)
+      )
+    );
+    list.innerHTML = details.map(m => {
+      const headers = m.payload?.headers || [];
+      const subject  = headers.find(h => h.name === 'Subject')?.value || 'Sem assunto';
+      const fromRaw  = headers.find(h => h.name === 'From')?.value || '';
+      const fromName = fromRaw.replace(/<[^>]+>/, '').trim() || fromRaw;
+      return `<div class="gmail-item">
+        <div class="gmail-from">${fromName}</div>
+        <div class="gmail-subject">${subject}</div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    list.innerHTML = '<div class="gmail-empty">Erro ao carregar emails</div>';
+  }
+}
+
+window.addEventListener('load', () => {
+  const check = setInterval(() => {
+    if (window.google?.accounts?.oauth2) {
+      clearInterval(check);
+      initGoogleAuth();
+    }
+  }, 100);
+});
 </script>
 </body>
 </html>
