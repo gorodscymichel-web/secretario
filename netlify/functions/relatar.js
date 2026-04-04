@@ -45,7 +45,7 @@ Regras da rotina:
 - Aulas (até fim abril): ter+qua+qui 19:30-22:45
 - Treino: apenas pós-trabalho. NUNCA em dia de aula. FDS manhã viável.
 - Dias de treino possíveis: seg (pós ~19h), sex (HO sem aula), FDS manhã.
-- Tipos válidos: treino, dissertacao, aula, trabalho
+- Tipos válidos: treino, dissertacao, aula, trabalho, outros
 - Status válidos: planejado, feito, perdido
 - Para novos blocos use id incremental (ex: "x0", "x1")
 

@@ -28,16 +28,22 @@
     padding: env(safe-area-inset-top, 16px) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
   }
   .app { max-width: 480px; margin: 0 auto; padding: 20px 16px 100px; }
-  .header { margin-bottom: 20px; }
+  .header { margin-bottom: 16px; }
   .header h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.03em; }
   .header-sub { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 2px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+  .tab { flex: 1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 10px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .tab.active { background: #172033; border-color: #3b82f6; color: #3b82f6; }
+
+  /* Plan view */
   .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
   .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
   .stat-pct { font-size: 28px; font-weight: 800; line-height: 1; font-family: 'DM Mono', monospace; }
   .stat-detail { font-size: 11px; color: var(--muted); margin-top: 3px; }
   .alert { background: #1e1040; border: 1px solid #6d28d9; border-radius: 10px; padding: 10px 14px; font-size: 12px; color: #c4b5fd; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 8px; }
-  .alert strong { color: #ddd6fe; }
   .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--muted); }
   .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
@@ -60,14 +66,13 @@
   .block-info { flex: 1; min-width: 0; }
   .block-type { font-size: 12px; font-weight: 700; }
   .block-note { font-size: 11px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 1px; }
+  .block-time { font-size: 11px; color: var(--subtle); font-family: 'DM Mono', monospace; font-weight: 500; flex-shrink: 0; }
   .block-status { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; flex-shrink: 0; font-family: 'DM Mono', monospace; }
   .status-feito { background: #14532d; color: #4ade80; }
   .status-planejado { background: var(--surface); color: var(--muted); }
   .status-perdido { background: #450a0a; color: #f87171; }
-  .block-time { font-size: 11px; color: var(--subtle); font-family: 'DM Mono', monospace; font-weight: 500; flex-shrink: 0; }
   .detail-hint { font-size: 10px; color: var(--border); text-align: right; margin-top: 4px; }
   .empty-day { color: var(--muted); font-size: 12px; text-align: center; padding: 16px 0; }
-  .footer { font-size: 10px; color: var(--border); text-align: center; margin-top: 20px; font-family: 'DM Mono', monospace; }
   .sync-bar { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; text-align: center; padding: 6px; background: var(--surface); border-radius: 8px; margin-bottom: 16px; }
   .sync-bar.ok { color: #4ade80; }
   .sync-bar.stale { color: #fbbf24; }
@@ -82,6 +87,27 @@
   .compose-btn.ok { background: #16a34a; }
   .compose-btn.err { background: #dc2626; }
   .compose-status { font-size: 11px; margin-top: 8px; text-align: center; min-height: 16px; color: var(--muted); }
+
+  /* Categories view */
+  .cat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+  .cat-header { display: flex; align-items: center; gap: 12px; }
+  .cat-swatch { width: 38px; height: 38px; border-radius: 10px; cursor: pointer; border: none; padding: 0; flex-shrink: 0; overflow: hidden; }
+  .cat-swatch input[type=color] { width: 150%; height: 150%; margin: -25%; border: none; cursor: pointer; padding: 0; background: none; }
+  .cat-info { flex: 1; }
+  .cat-name { font-size: 14px; font-weight: 700; }
+  .cat-short { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 2px; }
+  .cat-edit-btn { font-size: 20px; color: var(--muted); background: none; border: none; cursor: pointer; padding: 4px; line-height: 1; }
+  .cat-form { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .cat-input { background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 9px 11px; outline: none; width: 100%; transition: border-color 0.15s; }
+  .cat-input:focus { border-color: #3b82f6; }
+  .cat-row { display: flex; gap: 8px; }
+  .cat-save-btn { flex: 1; background: #3b82f6; color: #fff; border: none; border-radius: 8px; padding: 10px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; }
+  .cat-delete-btn { background: #450a0a; color: #f87171; border: none; border-radius: 8px; padding: 10px 14px; font-size: 13px; cursor: pointer; font-weight: 700; }
+  .cat-add-btn { width: 100%; background: var(--surface); border: 1.5px dashed var(--border); border-radius: 12px; padding: 14px; color: var(--muted); font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: border-color 0.15s, color 0.15s; margin-top: 4px; }
+  .cat-add-btn:active { border-color: #3b82f6; color: #3b82f6; }
+  .cat-hint { font-size: 10px; color: var(--muted); text-align: center; margin-top: 12px; line-height: 1.5; }
+
+  .footer { font-size: 10px; color: var(--border); text-align: center; margin-top: 20px; font-family: 'DM Mono', monospace; }
 </style>
 </head>
 <body>
@@ -90,29 +116,45 @@
     <h1>Secretário</h1>
     <div class="header-sub" id="headerSub">carregando...</div>
   </div>
-  <div class="sync-bar" id="syncBar">carregando dados...</div>
-  <div class="stats" id="stats"></div>
-  <div id="alertsContainer"></div>
-  <div class="legend" id="legend"></div>
-  <div id="weeksContainer"></div>
-  <div class="detail" id="detail"></div>
 
-  <div class="compose-section">
-    <div class="compose-label">Relatar para Claude</div>
-    <textarea class="compose-box" id="composeBox" placeholder="Ex: treinei hoje de manhã, perdi a dissertação de quarta, aula cancelada quinta..."></textarea>
-    <button class="compose-btn" id="composeBtn" onclick="enviarRelato()">Enviar para Claude</button>
-    <div class="compose-status" id="composeStatus"></div>
+  <div class="tabs">
+    <button class="tab active" id="tab-plano" onclick="switchTab('plano')">Plano</button>
+    <button class="tab" id="tab-categorias" onclick="switchTab('categorias')">Categorias</button>
+  </div>
+
+  <!-- Plan view -->
+  <div id="planView">
+    <div class="sync-bar" id="syncBar">carregando dados...</div>
+    <div class="stats" id="stats"></div>
+    <div id="alertsContainer"></div>
+    <div class="legend" id="legend"></div>
+    <div id="weeksContainer"></div>
+    <div class="detail" id="detail"></div>
+    <div class="compose-section">
+      <div class="compose-label">Relatar para Claude</div>
+      <textarea class="compose-box" id="composeBox" placeholder="Ex: treinei hoje de manhã, perdi a dissertação de quarta, aula cancelada quinta..."></textarea>
+      <button class="compose-btn" id="composeBtn" onclick="enviarRelato()">Enviar para Claude</button>
+      <div class="compose-status" id="composeStatus"></div>
+    </div>
+  </div>
+
+  <!-- Categories view -->
+  <div id="categoriasView" style="display:none">
+    <div id="catList"></div>
+    <button class="cat-add-btn" onclick="showAddCat()">+ Nova categoria</button>
+    <div class="cat-hint">Cores e nomes salvos neste dispositivo.<br>Novos tipos ficam disponíveis ao relatar para o Claude.</div>
   </div>
 
   <div class="footer">atualizado via Claude Code · secretarioclaude.netlify.app</div>
 </div>
 
 <script>
-const BLOCKS = {
+const DEFAULT_BLOCKS = {
   treino:      { label:'Treino',      short:'TRN', color:'#3b82f6', bg:'#1a3560', text:'#93c5fd' },
   dissertacao: { label:'Dissertação', short:'DIS', color:'#a78bfa', bg:'#2e1b5e', text:'#c4b5fd' },
   aula:        { label:'Aula',        short:'AUL', color:'#fbbf24', bg:'#3d2d00', text:'#fde68a' },
   trabalho:    { label:'Trabalho',    short:'TRB', color:'#64748b', bg:'#1e293b', text:'#94a3b8' },
+  outros:      { label:'Outros',      short:'OUT', color:'#f97316', bg:'#431407', text:'#fdba74' },
 };
 const STATUS_CYCLE = ['planejado','feito','perdido'];
 const DIAS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
@@ -121,14 +163,57 @@ const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov'
 
 let planData = null;
 let selected = null;
+let BLOCKS = loadBlocks();
 
+// ── Category persistence ──────────────────────────────────────
+function loadBlocks() {
+  try {
+    const saved = localStorage.getItem('secretario-categories');
+    if (saved) {
+      const custom = JSON.parse(saved);
+      // Merge: custom overrides defaults, custom-only entries added
+      const merged = { ...DEFAULT_BLOCKS };
+      for (const [k, v] of Object.entries(custom)) {
+        merged[k] = { ...(DEFAULT_BLOCKS[k] || {}), ...v };
+      }
+      return merged;
+    }
+  } catch {}
+  return { ...DEFAULT_BLOCKS };
+}
+
+function saveBlocks() {
+  // Save only what differs from or is not in DEFAULT_BLOCKS
+  const custom = {};
+  for (const [k, v] of Object.entries(BLOCKS)) {
+    const def = DEFAULT_BLOCKS[k];
+    if (!def || def.label !== v.label || def.color !== v.color) {
+      custom[k] = { label: v.label, short: v.short, color: v.color, bg: v.bg, text: v.text };
+    }
+  }
+  localStorage.setItem('secretario-categories', JSON.stringify(custom));
+}
+
+function blockForType(type) {
+  return BLOCKS[type] || { label: type, short: type.slice(0,3).toUpperCase(), color: '#64748b', bg: '#1e293b', text: '#94a3b8' };
+}
+
+// ── Tab switching ─────────────────────────────────────────────
+function switchTab(tab) {
+  document.getElementById('planView').style.display = tab === 'plano' ? '' : 'none';
+  document.getElementById('categoriasView').style.display = tab === 'categorias' ? '' : 'none';
+  document.getElementById('tab-plano').classList.toggle('active', tab === 'plano');
+  document.getElementById('tab-categorias').classList.toggle('active', tab === 'categorias');
+  if (tab === 'categorias') renderCategories();
+}
+
+// ── Plan loading & rendering ──────────────────────────────────
 function getDow(dateStr) {
   return (new Date(dateStr + 'T12:00:00').getDay() + 6) % 7;
 }
 
 function getToday() {
-  const d = new Date();
-  return d.toISOString().slice(0,10);
+  return new Date().toISOString().slice(0,10);
 }
 
 async function loadPlan() {
@@ -150,10 +235,7 @@ async function loadPlan() {
       }
     } catch {}
   }
-  if (!planData) {
-    syncBar.textContent = '✕ sem dados';
-    return;
-  }
+  if (!planData) { syncBar.textContent = '✕ sem dados'; return; }
   const dates = Object.keys(planData.days).sort();
   const today = getToday();
   selected = dates.includes(today) ? today : dates[0];
@@ -172,7 +254,7 @@ function render() {
 function renderStats() {
   let tF=0,tT=0,dF=0,dT=0;
   Object.values(planData.days).forEach(blocks => blocks.forEach(b => {
-    if (b.type==='treino') { tT++; if(b.status==='feito') tF++; }
+    if (b.type==='treino')      { tT++; if(b.status==='feito') tF++; }
     if (b.type==='dissertacao') { dT++; if(b.status==='feito') dF++; }
   }));
   const pct = (f,t) => t ? Math.round(f/t*100) : null;
@@ -193,7 +275,7 @@ function renderStats() {
 
 function renderAlerts() {
   const c = document.getElementById('alertsContainer');
-  if (!planData.alerts || !planData.alerts.length) { c.innerHTML = ''; return; }
+  if (!planData.alerts?.length) { c.innerHTML = ''; return; }
   c.innerHTML = planData.alerts.map(a =>
     `<div class="alert"><span>🎯</span><span>${a}</span></div>`
   ).join('');
@@ -208,9 +290,7 @@ function renderLegend() {
 function renderWeeks() {
   const dates = Object.keys(planData.days).sort();
   const weeks = [];
-  for (let i = 0; i < dates.length; i += 7) {
-    weeks.push(dates.slice(i, i + 7));
-  }
+  for (let i = 0; i < dates.length; i += 7) weeks.push(dates.slice(i, i+7));
   const today = getToday();
   const container = document.getElementById('weeksContainer');
   container.innerHTML = '';
@@ -235,7 +315,8 @@ function renderWeeks() {
       const cell = document.createElement('div');
       cell.className = `day-cell${isToday?' today':''}${isSel?' selected':''}${isFDS?' fds':''}`;
 
-      const dots = ['treino','dissertacao','aula','trabalho'].map(type => {
+      // Show dots for all known types present in this day
+      const dots = Object.keys(BLOCKS).map(type => {
         const b = blocks.find(x => x.type===type);
         if (!b) return '';
         const filled = b.status==='feito';
@@ -264,7 +345,7 @@ function renderDetail() {
     html += '<div class="empty-day">Dia livre</div>';
   } else {
     blocks.forEach(b => {
-      const bdef = BLOCKS[b.type];
+      const bdef = blockForType(b.type);
       const s = b.status;
       html += `
         <div class="block-row ${s}" data-date="${selected}" data-id="${b.id}"
@@ -303,11 +384,116 @@ function renderDetail() {
 function updateHeader() {
   const dates = Object.keys(planData.days).sort();
   const first = new Date(dates[0] + 'T12:00:00');
-  const last = new Date(dates[dates.length-1] + 'T12:00:00');
+  const last  = new Date(dates[dates.length-1] + 'T12:00:00');
   document.getElementById('headerSub').textContent =
     `${first.getDate()} ${MESES[first.getMonth()]} – ${last.getDate()} ${MESES[last.getMonth()]} · toque num dia`;
 }
 
+// ── Categories view ───────────────────────────────────────────
+function renderCategories() {
+  const list = document.getElementById('catList');
+  list.innerHTML = '';
+  const isDefault = k => !!DEFAULT_BLOCKS[k];
+
+  Object.entries(BLOCKS).forEach(([key, v]) => {
+    const card = document.createElement('div');
+    card.className = 'cat-card';
+    card.id = `cat-${key}`;
+    card.innerHTML = catCardHTML(key, v, isDefault(key));
+    list.appendChild(card);
+  });
+}
+
+function catCardHTML(key, v, isBuiltin) {
+  return `
+    <div class="cat-header">
+      <div class="cat-swatch" style="background:${v.color}" onclick="openColorPicker('${key}')">
+        <input type="color" id="color-${key}" value="${v.color}" oninput="previewColor('${key}', this.value)" onchange="applyColor('${key}', this.value)" style="opacity:0;width:150%;height:150%;margin:-25%;cursor:pointer;border:none;padding:0">
+      </div>
+      <div class="cat-info">
+        <div class="cat-name">${v.label}</div>
+        <div class="cat-short">${v.short} · ${isBuiltin ? 'padrão' : 'personalizada'}</div>
+      </div>
+      <button class="cat-edit-btn" onclick="toggleCatForm('${key}')">✎</button>
+    </div>
+    <div class="cat-form" id="form-${key}" style="display:none">
+      <input class="cat-input" id="label-${key}" value="${v.label}" placeholder="Nome da categoria">
+      <input class="cat-input" id="short-${key}" value="${v.short}" placeholder="Sigla (3 letras)" maxlength="3">
+      <div class="cat-row">
+        <button class="cat-save-btn" onclick="saveCat('${key}')">Salvar</button>
+        ${!isBuiltin ? `<button class="cat-delete-btn" onclick="deleteCat('${key}')">Excluir</button>` : ''}
+      </div>
+    </div>`;
+}
+
+function toggleCatForm(key) {
+  const form = document.getElementById(`form-${key}`);
+  form.style.display = form.style.display === 'none' ? '' : 'none';
+}
+
+function openColorPicker(key) {
+  document.getElementById(`color-${key}`).click();
+}
+
+function previewColor(key, color) {
+  const card = document.getElementById(`cat-${key}`);
+  card.querySelector('.cat-swatch').style.background = color;
+}
+
+function applyColor(key, color) {
+  // Compute bg and text from color
+  BLOCKS[key] = { ...BLOCKS[key], color, bg: hexToSurfaceBg(color), text: hexToLightText(color) };
+  saveBlocks();
+  renderCategories();
+  renderLegend();
+}
+
+function saveCat(key) {
+  const label = document.getElementById(`label-${key}`).value.trim() || BLOCKS[key].label;
+  const short = (document.getElementById(`short-${key}`).value.trim() || BLOCKS[key].short).toUpperCase().slice(0,3);
+  BLOCKS[key] = { ...BLOCKS[key], label, short };
+  saveBlocks();
+  renderCategories();
+  renderLegend();
+  renderDetail();
+}
+
+function deleteCat(key) {
+  if (!confirm(`Excluir categoria "${BLOCKS[key].label}"?`)) return;
+  delete BLOCKS[key];
+  saveBlocks();
+  renderCategories();
+  renderLegend();
+}
+
+function showAddCat() {
+  const key = prompt('ID interno da categoria (sem espaços, ex: medico, lazer):');
+  if (!key || !key.trim()) return;
+  const cleanKey = key.trim().toLowerCase().replace(/\s+/g,'_');
+  if (BLOCKS[cleanKey]) { alert('Categoria já existe.'); return; }
+  const label = prompt('Nome da categoria:') || cleanKey;
+  const short = (prompt('Sigla (3 letras):') || cleanKey.slice(0,3)).toUpperCase().slice(0,3);
+  BLOCKS[cleanKey] = { label, short, color: '#64748b', bg: '#1e293b', text: '#94a3b8' };
+  saveBlocks();
+  renderCategories();
+  renderLegend();
+}
+
+// Helpers to derive bg/text from a hex color
+function hexToSurfaceBg(hex) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return `rgb(${Math.round(r*0.15)},${Math.round(g*0.15)},${Math.round(b*0.15)})`;
+}
+function hexToLightText(hex) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return `rgb(${Math.min(255,Math.round(r*0.7+130))},${Math.min(255,Math.round(g*0.7+130))},${Math.min(255,Math.round(b*0.7+130))})`;
+}
+
+// ── Relatar ───────────────────────────────────────────────────
 async function enviarRelato() {
   const box = document.getElementById('composeBox');
   const btn = document.getElementById('composeBtn');
@@ -334,7 +520,6 @@ async function enviarRelato() {
       btn.classList.add('ok');
       status.textContent = 'Recarregue em ~1min para ver no servidor';
       box.value = '';
-      // Update local state immediately
       planData = data.plan;
       localStorage.setItem('secretario-cache', JSON.stringify(planData));
       render();

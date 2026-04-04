@@ -14,7 +14,7 @@ Quando Michel disser algo como "treinei hoje", "perdi o treino de segunda", "adi
 1. Edite `plan.json`
 2. Altere o `status` do bloco relevante: `planejado`, `feito`, ou `perdido`
 3. Para adicionar novos blocos, use id incremental (ex: "x0", "x1")
-4. Tipos válidos: `treino`, `dissertacao`, `aula`, `trabalho`
+4. Tipos válidos: `treino`, `dissertacao`, `aula`, `trabalho`, `outros`
 5. Faça commit e push: `git add plan.json && git commit -m "atualiza plano" && git push`
 
 ## Regras da rotina do Michel
