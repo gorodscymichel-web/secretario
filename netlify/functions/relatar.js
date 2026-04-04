@@ -3,10 +3,27 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
+  // ── Auth ──────────────────────────────────────────────────────
+  const RELATAR_SECRET = process.env.RELATAR_SECRET;
+  if (!RELATAR_SECRET) {
+    return { statusCode: 503, headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'RELATAR_SECRET não configurado no Netlify' }) };
+  }
+  const incoming = event.headers['x-secret'] || '';
+  if (incoming !== RELATAR_SECRET) {
+    return { statusCode: 401, headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Não autorizado' }) };
+  }
+
   try {
     const { message } = JSON.parse(event.body || '{}');
     if (!message?.trim()) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Mensagem vazia' }) };
+    }
+
+    // Input length cap — prevents abuse and runaway API calls
+    if (message.length > 2000) {
+      return { statusCode: 400, body: JSON.stringify({ error: 'Mensagem muito longa (máx 2000 caracteres)' }) };
     }
 
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;

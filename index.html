@@ -143,12 +143,39 @@
     <div id="catList"></div>
     <button class="cat-add-btn" onclick="showAddCat()">+ Nova categoria</button>
     <div class="cat-hint">Cores e nomes salvos neste dispositivo.<br>Novos tipos ficam disponíveis ao relatar para o Claude.</div>
+    <button class="cat-add-btn" onclick="resetPin()" style="margin-top:12px;border-style:solid;color:#f87171;border-color:#450a0a">Redefinir senha de acesso</button>
   </div>
 
   <div class="footer">atualizado via Claude Code · secretarioclaude.netlify.app</div>
 </div>
 
 <script>
+// ── Security helpers ─────────────────────────────────────────
+function escHTML(s) {
+  return String(s ?? '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+function getPin() {
+  let pin = localStorage.getItem('secretario-pin');
+  if (!pin) {
+    pin = prompt('Defina uma senha de acesso ao Secretário (use no Netlify como RELATAR_SECRET):');
+    if (pin?.trim()) localStorage.setItem('secretario-pin', pin.trim());
+    else return null;
+  }
+  return pin;
+}
+
+function resetPin() {
+  if (!confirm('Redefinir senha? Você precisará atualizar RELATAR_SECRET no Netlify também.')) return;
+  localStorage.removeItem('secretario-pin');
+  getPin();
+}
+
 const DEFAULT_BLOCKS = {
   treino:      { label:'Treino',      short:'TRN', color:'#3b82f6', bg:'#1a3560', text:'#93c5fd' },
   dissertacao: { label:'Dissertação', short:'DIS', color:'#a78bfa', bg:'#2e1b5e', text:'#c4b5fd' },
@@ -277,13 +304,13 @@ function renderAlerts() {
   const c = document.getElementById('alertsContainer');
   if (!planData.alerts?.length) { c.innerHTML = ''; return; }
   c.innerHTML = planData.alerts.map(a =>
-    `<div class="alert"><span>🎯</span><span>${a}</span></div>`
+    `<div class="alert"><span>🎯</span><span>${escHTML(a)}</span></div>`
   ).join('');
 }
 
 function renderLegend() {
   document.getElementById('legend').innerHTML = Object.entries(BLOCKS).map(([k,v]) =>
-    `<div class="legend-item"><div class="legend-dot" style="background:${v.color}"></div>${v.label}</div>`
+    `<div class="legend-item"><div class="legend-dot" style="background:${escHTML(v.color)}"></div>${escHTML(v.label)}</div>`
   ).join('');
 }
 
@@ -350,12 +377,12 @@ function renderDetail() {
       html += `
         <div class="block-row ${s}" data-date="${selected}" data-id="${b.id}"
           style="background:${bdef.bg};border:1px solid ${s==='perdido'?'#334155':bdef.color+'44'}">
-          <div class="block-icon" style="background:${bdef.color}">${bdef.short}</div>
+          <div class="block-icon" style="background:${escHTML(bdef.color)}">${escHTML(bdef.short)}</div>
           <div class="block-info">
-            <div class="block-type" style="color:${bdef.text}">${bdef.label}</div>
-            <div class="block-note">${b.note}</div>
+            <div class="block-type" style="color:${escHTML(bdef.text)}">${escHTML(bdef.label)}</div>
+            <div class="block-note">${escHTML(b.note)}</div>
           </div>
-          ${b.start ? `<div class="block-time">${b.start}–${b.end||'?'}</div>` : ''}
+          ${b.start ? `<div class="block-time">${escHTML(b.start)}–${escHTML(b.end||'?')}</div>` : ''}
           <div class="block-status status-${s}">
             ${s==='feito'?'✓ feito':s==='perdido'?'✕ falhou':'pendente'}
           </div>
@@ -405,23 +432,24 @@ function renderCategories() {
 }
 
 function catCardHTML(key, v, isBuiltin) {
+  const safeKey = escHTML(key);
   return `
     <div class="cat-header">
-      <div class="cat-swatch" style="background:${v.color}" onclick="openColorPicker('${key}')">
-        <input type="color" id="color-${key}" value="${v.color}" oninput="previewColor('${key}', this.value)" onchange="applyColor('${key}', this.value)" style="opacity:0;width:150%;height:150%;margin:-25%;cursor:pointer;border:none;padding:0">
+      <div class="cat-swatch" style="background:${escHTML(v.color)}" onclick="openColorPicker('${safeKey}')">
+        <input type="color" id="color-${safeKey}" value="${escHTML(v.color)}" oninput="previewColor('${safeKey}', this.value)" onchange="applyColor('${safeKey}', this.value)" style="opacity:0;width:150%;height:150%;margin:-25%;cursor:pointer;border:none;padding:0">
       </div>
       <div class="cat-info">
-        <div class="cat-name">${v.label}</div>
-        <div class="cat-short">${v.short} · ${isBuiltin ? 'padrão' : 'personalizada'}</div>
+        <div class="cat-name">${escHTML(v.label)}</div>
+        <div class="cat-short">${escHTML(v.short)} · ${isBuiltin ? 'padrão' : 'personalizada'}</div>
       </div>
-      <button class="cat-edit-btn" onclick="toggleCatForm('${key}')">✎</button>
+      <button class="cat-edit-btn" onclick="toggleCatForm('${safeKey}')">✎</button>
     </div>
-    <div class="cat-form" id="form-${key}" style="display:none">
-      <input class="cat-input" id="label-${key}" value="${v.label}" placeholder="Nome da categoria">
-      <input class="cat-input" id="short-${key}" value="${v.short}" placeholder="Sigla (3 letras)" maxlength="3">
+    <div class="cat-form" id="form-${safeKey}" style="display:none">
+      <input class="cat-input" id="label-${safeKey}" value="${escHTML(v.label)}" placeholder="Nome da categoria">
+      <input class="cat-input" id="short-${safeKey}" value="${escHTML(v.short)}" placeholder="Sigla (3 letras)" maxlength="3">
       <div class="cat-row">
-        <button class="cat-save-btn" onclick="saveCat('${key}')">Salvar</button>
-        ${!isBuiltin ? `<button class="cat-delete-btn" onclick="deleteCat('${key}')">Excluir</button>` : ''}
+        <button class="cat-save-btn" onclick="saveCat('${safeKey}')">Salvar</button>
+        ${!isBuiltin ? `<button class="cat-delete-btn" onclick="deleteCat('${safeKey}')">Excluir</button>` : ''}
       </div>
     </div>`;
 }
@@ -501,6 +529,9 @@ async function enviarRelato() {
   const text = box.value.trim();
   if (!text) { box.focus(); return; }
 
+  const pin = getPin();
+  if (!pin) return;
+
   btn.disabled = true;
   btn.textContent = 'Atualizando...';
   status.textContent = '';
@@ -509,7 +540,7 @@ async function enviarRelato() {
   try {
     const res = await fetch('/.netlify/functions/relatar', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-Secret': pin },
       body: JSON.stringify({ message: text }),
     });
 
