@@ -64,12 +64,22 @@
   .status-feito { background: #14532d; color: #4ade80; }
   .status-planejado { background: var(--surface); color: var(--muted); }
   .status-perdido { background: #450a0a; color: #f87171; }
+  .block-time { font-size: 11px; color: var(--subtle); font-family: 'DM Mono', monospace; font-weight: 500; flex-shrink: 0; }
   .detail-hint { font-size: 10px; color: var(--border); text-align: right; margin-top: 4px; }
   .empty-day { color: var(--muted); font-size: 12px; text-align: center; padding: 16px 0; }
   .footer { font-size: 10px; color: var(--border); text-align: center; margin-top: 20px; font-family: 'DM Mono', monospace; }
   .sync-bar { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; text-align: center; padding: 6px; background: var(--surface); border-radius: 8px; margin-bottom: 16px; }
   .sync-bar.ok { color: #4ade80; }
   .sync-bar.stale { color: #fbbf24; }
+  .compose-section { margin-top: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+  .compose-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; font-family: 'DM Mono', monospace; }
+  .compose-box { width: 100%; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.5; padding: 11px 13px; resize: none; min-height: 88px; outline: none; transition: border-color 0.15s; }
+  .compose-box:focus { border-color: #3b82f6; }
+  .compose-box::placeholder { color: var(--muted); }
+  .compose-btn { width: 100%; margin-top: 10px; background: #3b82f6; color: #fff; border: none; border-radius: 10px; padding: 12px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.15s, opacity 0.15s; letter-spacing: -0.01em; }
+  .compose-btn:active { background: #2563eb; }
+  .compose-btn.copied { background: #16a34a; }
+  .compose-hint { font-size: 10px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -84,6 +94,14 @@
   <div class="legend" id="legend"></div>
   <div id="weeksContainer"></div>
   <div class="detail" id="detail"></div>
+
+  <div class="compose-section">
+    <div class="compose-label">Relatar para Claude</div>
+    <textarea class="compose-box" id="composeBox" placeholder="Ex: treinei hoje de manhã, perdi a dissertação de quarta, aula cancelada quinta..."></textarea>
+    <button class="compose-btn" id="composeBtn" onclick="shareWithClaude()">Compartilhar com Claude</button>
+    <div class="compose-hint">Descreva o que fez (ou perdeu) · o Claude atualiza o plano quando você colar no chat</div>
+  </div>
+
   <div class="footer">atualizado via Claude Code · secretarioclaude.netlify.app</div>
 </div>
 
@@ -254,6 +272,7 @@ function renderDetail() {
             <div class="block-type" style="color:${bdef.text}">${bdef.label}</div>
             <div class="block-note">${b.note}</div>
           </div>
+          ${b.start ? `<div class="block-time">${b.start}–${b.end||'?'}</div>` : ''}
           <div class="block-status status-${s}">
             ${s==='feito'?'✓ feito':s==='perdido'?'✕ falhou':'pendente'}
           </div>
@@ -285,6 +304,29 @@ function updateHeader() {
   const last = new Date(dates[dates.length-1] + 'T12:00:00');
   document.getElementById('headerSub').textContent =
     `${first.getDate()} ${MESES[first.getMonth()]} – ${last.getDate()} ${MESES[last.getMonth()]} · toque num dia`;
+}
+
+async function shareWithClaude() {
+  const box = document.getElementById('composeBox');
+  const btn = document.getElementById('composeBtn');
+  const text = box.value.trim();
+  if (!text) { box.focus(); return; }
+
+  const today = new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long' });
+  const msg = `[Secretário – ${today}]\n${text}`;
+
+  if (navigator.share) {
+    try { await navigator.share({ text: msg }); } catch {}
+  } else {
+    try {
+      await navigator.clipboard.writeText(msg);
+      btn.textContent = '✓ Copiado! Cole no Claude Code';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Compartilhar com Claude'; btn.classList.remove('copied'); }, 3000);
+    } catch {
+      prompt('Copie o texto abaixo:', msg);
+    }
+  }
 }
 
 loadPlan();
