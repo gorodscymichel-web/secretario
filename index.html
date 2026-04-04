@@ -76,10 +76,12 @@
   .compose-box { width: 100%; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.5; padding: 11px 13px; resize: none; min-height: 88px; outline: none; transition: border-color 0.15s; }
   .compose-box:focus { border-color: #3b82f6; }
   .compose-box::placeholder { color: var(--muted); }
-  .compose-btn { width: 100%; margin-top: 10px; background: #3b82f6; color: #fff; border: none; border-radius: 10px; padding: 12px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.15s, opacity 0.15s; letter-spacing: -0.01em; }
+  .compose-btn { width: 100%; margin-top: 10px; background: #3b82f6; color: #fff; border: none; border-radius: 10px; padding: 13px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s; letter-spacing: -0.01em; }
   .compose-btn:active { background: #2563eb; }
-  .compose-btn.copied { background: #16a34a; }
-  .compose-hint { font-size: 10px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+  .compose-btn:disabled { opacity: 0.6; cursor: default; }
+  .compose-btn.ok { background: #16a34a; }
+  .compose-btn.err { background: #dc2626; }
+  .compose-status { font-size: 11px; margin-top: 8px; text-align: center; min-height: 16px; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -98,8 +100,8 @@
   <div class="compose-section">
     <div class="compose-label">Relatar para Claude</div>
     <textarea class="compose-box" id="composeBox" placeholder="Ex: treinei hoje de manhã, perdi a dissertação de quarta, aula cancelada quinta..."></textarea>
-    <button class="compose-btn" id="composeBtn" onclick="shareWithClaude()">Compartilhar com Claude</button>
-    <div class="compose-hint">Descreva o que fez (ou perdeu) · o Claude atualiza o plano quando você colar no chat</div>
+    <button class="compose-btn" id="composeBtn" onclick="enviarRelato()">Enviar para Claude</button>
+    <div class="compose-status" id="composeStatus"></div>
   </div>
 
   <div class="footer">atualizado via Claude Code · secretarioclaude.netlify.app</div>
@@ -306,26 +308,54 @@ function updateHeader() {
     `${first.getDate()} ${MESES[first.getMonth()]} – ${last.getDate()} ${MESES[last.getMonth()]} · toque num dia`;
 }
 
-async function shareWithClaude() {
+async function enviarRelato() {
   const box = document.getElementById('composeBox');
   const btn = document.getElementById('composeBtn');
+  const status = document.getElementById('composeStatus');
   const text = box.value.trim();
   if (!text) { box.focus(); return; }
 
-  const today = new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long' });
-  const msg = `[Secretário – ${today}]\n${text}`;
+  btn.disabled = true;
+  btn.textContent = 'Atualizando...';
+  status.textContent = '';
+  btn.className = 'compose-btn';
 
-  if (navigator.share) {
-    try { await navigator.share({ text: msg }); } catch {}
-  } else {
-    try {
-      await navigator.clipboard.writeText(msg);
-      btn.textContent = '✓ Copiado! Cole no Claude Code';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Compartilhar com Claude'; btn.classList.remove('copied'); }, 3000);
-    } catch {
-      prompt('Copie o texto abaixo:', msg);
+  try {
+    const res = await fetch('/.netlify/functions/relatar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.ok) {
+      btn.textContent = '✓ Plano atualizado!';
+      btn.classList.add('ok');
+      status.textContent = 'Recarregue em ~1min para ver no servidor';
+      box.value = '';
+      // Update local state immediately
+      planData = data.plan;
+      localStorage.setItem('secretario-cache', JSON.stringify(planData));
+      render();
+      setTimeout(() => {
+        btn.textContent = 'Enviar para Claude';
+        btn.className = 'compose-btn';
+        status.textContent = '';
+        btn.disabled = false;
+      }, 4000);
+    } else {
+      throw new Error(data.error || 'Erro desconhecido');
     }
+  } catch (err) {
+    btn.textContent = '✕ Erro — tente de novo';
+    btn.classList.add('err');
+    status.textContent = err.message;
+    setTimeout(() => {
+      btn.textContent = 'Enviar para Claude';
+      btn.className = 'compose-btn';
+      btn.disabled = false;
+    }, 4000);
   }
 }
 
