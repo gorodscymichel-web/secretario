@@ -16,6 +16,12 @@
         "type": "dissertacao",
         "note": "Cap.8 livro Weller (Lula 2/Dilma)",
         "status": "feito"
+      },
+      {
+        "id": "x0",
+        "type": "dissertacao",
+        "note": "Iniciamos o Claude Secretário (setup do sistema de agenda)",
+        "status": "feito"
       }
     ],
     "2026-04-04": [
@@ -30,12 +36,6 @@
         "type": "dissertacao",
         "note": "Bloco de estudo",
         "status": "planejado"
-      },
-      {
-        "id": "x0",
-        "type": "dissertacao",
-        "note": "Iniciamos o Claude Secretário (setup do sistema de agenda)",
-        "status": "feito"
       }
     ],
     "2026-04-05": [
