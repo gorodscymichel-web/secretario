@@ -34,7 +34,7 @@
 
   /* Tabs */
   .tabs { display: flex; gap: 6px; margin-bottom: 16px; }
-  .tab { flex: 1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 10px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .tab { flex: 1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 10px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px; color: var(--muted); cursor: pointer; transition: all 0.15s; text-decoration: none; display: flex; align-items: center; justify-content: center; }
   .tab.active { background: #172033; border-color: #3b82f6; color: #3b82f6; }
 
   /* Plan view */
@@ -120,6 +120,7 @@
   <div class="tabs">
     <button class="tab active" id="tab-plano" onclick="switchTab('plano')">Plano</button>
     <button class="tab" id="tab-categorias" onclick="switchTab('categorias')">Categorias</button>
+    <a class="tab" href="./history.html">Histórico</a>
   </div>
 
   <!-- Plan view -->

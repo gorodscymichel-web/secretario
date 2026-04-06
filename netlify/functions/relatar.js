@@ -20,6 +20,7 @@ exports.handler = async (event) => {
     const OWNER = 'gorodscymichel-web';
     const REPO = 'secretario';
     const FILE = 'plan.json';
+    const HISTORY_FILE = 'history.json';
 
     // 1. Fetch current plan.json from GitHub
     const ghRes = await fetch(
@@ -71,9 +72,55 @@ Retorne APENAS o JSON atualizado — sem markdown, sem explicação, sem código
     // Strip markdown code fences if Claude added them
     newPlanText = newPlanText.replace(/^```json?\n?/, '').replace(/\n?```$/, '').trim();
 
+    const oldPlan = JSON.parse(currentPlan);
     const newPlan = JSON.parse(newPlanText); // throws if invalid JSON
 
-    // 3. Commit updated plan.json to GitHub
+    // 3a. Archive any days removed from plan into history.json
+    const oldDayKeys = Object.keys(oldPlan.days || {});
+    const newDayKeys = new Set(Object.keys(newPlan.days || {}));
+    const daysToArchive = oldDayKeys.filter(d => !newDayKeys.has(d));
+
+    if (daysToArchive.length > 0) {
+      // Fetch current history.json (create if missing)
+      let historyData = { days: {} };
+      let historySha = null;
+      try {
+        const histRes = await fetch(
+          `https://api.github.com/repos/${OWNER}/${REPO}/contents/${HISTORY_FILE}`,
+          { headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: 'application/vnd.github.v3+json' } }
+        );
+        if (histRes.ok) {
+          const histGhData = await histRes.json();
+          historyData = JSON.parse(Buffer.from(histGhData.content, 'base64').toString('utf-8'));
+          historySha = histGhData.sha;
+        }
+      } catch {}
+
+      for (const day of daysToArchive) {
+        historyData.days[day] = oldPlan.days[day];
+      }
+
+      const histBody = {
+        message: `histórico: arquiva ${daysToArchive.join(', ')}`,
+        content: Buffer.from(JSON.stringify(historyData, null, 2)).toString('base64'),
+      };
+      if (historySha) histBody.sha = historySha;
+
+      await fetch(
+        `https://api.github.com/repos/${OWNER}/${REPO}/contents/${HISTORY_FILE}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            Accept: 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(histBody),
+        }
+      );
+    }
+
+    // 3b. Commit updated plan.json to GitHub
     const commitRes = await fetch(
       `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`,
       {

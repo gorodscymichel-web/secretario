@@ -1,0 +1,52 @@
+{
+  "days": {
+    "2026-04-03": [
+      {
+        "id": "a0",
+        "type": "treino",
+        "note": "Ombro/peito/tríceps + 10min cardio",
+        "status": "feito"
+      },
+      {
+        "id": "a1",
+        "type": "dissertacao",
+        "note": "Cap.8 livro Weller (Lula 2/Dilma)",
+        "status": "feito"
+      },
+      {
+        "id": "x0",
+        "type": "outros",
+        "note": "Iniciamos o Claude Secretário (setup do sistema de agenda)",
+        "status": "feito"
+      }
+    ],
+    "2026-04-04": [
+      {
+        "id": "b0",
+        "type": "treino",
+        "note": "FDS manhã",
+        "status": "planejado"
+      },
+      {
+        "id": "b1",
+        "type": "dissertacao",
+        "note": "Bloco de estudo",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-05": [
+      {
+        "id": "c0",
+        "type": "treino",
+        "note": "FDS manhã",
+        "status": "planejado"
+      },
+      {
+        "id": "c1",
+        "type": "dissertacao",
+        "note": "Definir pergunta + scripts",
+        "status": "planejado"
+      }
+    ]
+  }
+}

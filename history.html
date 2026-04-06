@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>Secretário · Histórico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #273549;
+    --border: #334155;
+    --text: #f1f5f9;
+    --muted: #64748b;
+    --subtle: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100dvh;
+    padding: env(safe-area-inset-top, 16px) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+  }
+  .app { max-width: 480px; margin: 0 auto; padding: 20px 16px 100px; }
+
+  .back { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--muted); text-decoration: none; font-family: 'DM Mono', monospace; margin-bottom: 14px; letter-spacing: 0.03em; }
+  .back:active { color: var(--subtle); }
+
+  .header { margin-bottom: 20px; }
+  .header h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.03em; }
+  .header-sub { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 2px; }
+
+  /* Section titles */
+  .section-title { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; font-family: 'DM Mono', monospace; }
+
+  /* Stats grid */
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
+  .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .stat-pct { font-size: 28px; font-weight: 800; line-height: 1; font-family: 'DM Mono', monospace; }
+  .stat-detail { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  /* Weekly table */
+  .week-table { margin-bottom: 24px; }
+  .week-row { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; }
+  .week-row-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .week-label { font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace; color: var(--subtle); }
+  .week-range { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .week-metrics { display: flex; flex-wrap: wrap; gap: 8px; }
+  .metric { display: flex; align-items: center; gap: 6px; }
+  .metric-icon { width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; color: #fff; flex-shrink: 0; font-family: 'DM Mono', monospace; }
+  .metric-text { font-size: 12px; font-weight: 700; }
+  .metric-sub { font-size: 10px; color: var(--muted); }
+  .bar-wrap { flex: 1; min-width: 60px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
+
+  /* Full log */
+  .log { margin-bottom: 24px; }
+  .log-day { margin-bottom: 12px; }
+  .log-date { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; font-family: 'DM Mono', monospace; }
+  .log-blocks { display: flex; flex-direction: column; gap: 5px; }
+  .log-block { display: flex; align-items: center; gap: 9px; background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 9px 11px; }
+  .log-block.feito { border-color: #14532d44; }
+  .log-block.perdido { opacity: 0.45; border-color: #450a0a44; }
+  .log-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; color: #fff; flex-shrink: 0; font-family: 'DM Mono', monospace; }
+  .log-info { flex: 1; min-width: 0; }
+  .log-type { font-size: 12px; font-weight: 700; }
+  .log-note { font-size: 11px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 1px; }
+  .log-status { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; flex-shrink: 0; font-family: 'DM Mono', monospace; }
+  .status-feito { background: #14532d; color: #4ade80; }
+  .status-planejado { background: var(--surface2); color: var(--muted); }
+  .status-perdido { background: #450a0a; color: #f87171; }
+
+  /* Empty */
+  .empty { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 0; }
+
+  /* Filter */
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .filter-btn { background: var(--surface); border: 1.5px solid var(--border); border-radius: 8px; padding: 6px 12px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 11px; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .filter-btn.active { border-color: #3b82f6; color: #3b82f6; background: #172033; }
+
+  .footer { font-size: 10px; color: var(--border); text-align: center; margin-top: 20px; font-family: 'DM Mono', monospace; }
+  .load-bar { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; text-align: center; padding: 6px; background: var(--surface); border-radius: 8px; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <a class="back" href="/">← Plano</a>
+
+  <div class="header">
+    <h1>Histórico</h1>
+    <div class="header-sub" id="headerSub">carregando...</div>
+  </div>
+
+  <div class="load-bar" id="loadBar">carregando dados...</div>
+
+  <div id="statsSection">
+    <div class="section-title">Resumo geral</div>
+    <div class="stats" id="statsGrid"></div>
+  </div>
+
+  <div id="weeklySection">
+    <div class="section-title">Por semana</div>
+    <div class="week-table" id="weekTable"></div>
+  </div>
+
+  <div id="logSection">
+    <div class="section-title">Log completo</div>
+    <div class="filter-row" id="filterRow"></div>
+    <div class="log" id="logContainer"></div>
+  </div>
+
+  <div class="footer">secretarioclaude.netlify.app · histórico</div>
+</div>
+
+<script>
+const BLOCKS = {
+  treino:      { label:'Treino',      short:'TRN', color:'#3b82f6', bg:'#1a3560', text:'#93c5fd' },
+  dissertacao: { label:'Dissertação', short:'DIS', color:'#a78bfa', bg:'#2e1b5e', text:'#c4b5fd' },
+  aula:        { label:'Aula',        short:'AUL', color:'#fbbf24', bg:'#3d2d00', text:'#fde68a' },
+  trabalho:    { label:'Trabalho',    short:'TRB', color:'#64748b', bg:'#1e293b', text:'#94a3b8' },
+  outros:      { label:'Outros',      short:'OUT', color:'#f97316', bg:'#431407', text:'#fdba74' },
+};
+const DIAS_FULL = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+function escHTML(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function blockDef(type) {
+  return BLOCKS[type] || { label: type, short: type.slice(0,3).toUpperCase(), color:'#64748b', bg:'#1e293b', text:'#94a3b8' };
+}
+
+function pctColor(p) {
+  if (p === null) return '#64748b';
+  return p >= 70 ? '#4ade80' : p >= 40 ? '#fbbf24' : '#f87171';
+}
+
+// Monday of the week containing a date string
+function mondayOf(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  const day = d.getDay(); // 0=Sun
+  const diff = day === 0 ? -6 : 1 - day;
+  const m = new Date(d);
+  m.setDate(d.getDate() + diff);
+  return m.toISOString().slice(0,10);
+}
+
+function fmtDate(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return `${DIAS_FULL[d.getDay()]}, ${d.getDate()} ${MESES[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function fmtShort(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return `${d.getDate()} ${MESES[d.getMonth()]}`;
+}
+
+let histData = null;
+let activeFilter = null; // null = all types
+
+async function load() {
+  const loadBar = document.getElementById('loadBar');
+  try {
+    const res = await fetch('./history.json?t=' + Date.now());
+    if (!res.ok) throw new Error('fetch failed');
+    histData = await res.json();
+    loadBar.style.display = 'none';
+    document.getElementById('headerSub').textContent =
+      `${Object.keys(histData.days).length} dias registrados`;
+    render();
+  } catch (e) {
+    loadBar.textContent = '✕ Erro ao carregar histórico';
+  }
+}
+
+function render() {
+  renderStats();
+  renderWeekly();
+  renderFilters();
+  renderLog();
+}
+
+// ── Stats ────────────────────────────────────────────────────
+function renderStats() {
+  const all = allBlocks();
+  const types = detectTypes();
+
+  // Build stat cards for tracked types (exclude trabalho/outros from % calc as they're always "planejado")
+  const mainTypes = ['treino', 'dissertacao', 'aula'];
+  const cards = mainTypes.filter(t => types.has(t)).map(t => {
+    const bs = all.filter(b => b.type === t);
+    const done = bs.filter(b => b.status === 'feito').length;
+    const total = bs.filter(b => b.status !== 'outros').length;
+    const pct = total ? Math.round(done / total * 100) : null;
+    const def = blockDef(t);
+    return `
+      <div class="stat-card">
+        <div class="stat-label">${escHTML(def.label)}</div>
+        <div class="stat-pct" style="color:${pctColor(pct)}">${pct !== null ? pct + '%' : '--'}</div>
+        <div class="stat-detail">${done}/${total} feitos</div>
+      </div>`;
+  });
+
+  // Pad to even number
+  if (cards.length % 2 !== 0) cards.push(`<div class="stat-card" style="border-style:dashed;opacity:0.3"></div>`);
+
+  document.getElementById('statsGrid').innerHTML = cards.join('');
+}
+
+// ── Weekly breakdown ─────────────────────────────────────────
+function renderWeekly() {
+  const dates = sortedDates();
+  if (!dates.length) { document.getElementById('weekTable').innerHTML = '<div class="empty">Sem dados</div>'; return; }
+
+  // Group by week
+  const weeks = {};
+  dates.forEach(d => {
+    const wk = mondayOf(d);
+    if (!weeks[wk]) weeks[wk] = [];
+    weeks[wk].push(d);
+  });
+
+  const types = ['treino', 'dissertacao', 'aula'];
+  const wkKeys = Object.keys(weeks).sort().reverse();
+
+  const rows = wkKeys.map(wk => {
+    const wkDates = weeks[wk];
+    const lastDate = wkDates[wkDates.length - 1];
+    const range = `${fmtShort(wkDates[0])} – ${fmtShort(lastDate)}`;
+
+    const metrics = types.map(t => {
+      const bs = wkDates.flatMap(d => (histData.days[d] || []).filter(b => b.type === t));
+      if (!bs.length) return '';
+      const done = bs.filter(b => b.status === 'feito').length;
+      const total = bs.length;
+      const pct = total ? done / total : 0;
+      const def = blockDef(t);
+      return `
+        <div class="metric">
+          <div class="metric-icon" style="background:${escHTML(def.color)}">${escHTML(def.short)}</div>
+          <div>
+            <div class="metric-text" style="color:${pctColor(Math.round(pct*100))}">${done}/${total}</div>
+            <div class="metric-sub">${escHTML(def.label.toLowerCase())}</div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar-fill" style="width:${Math.round(pct*100)}%;background:${escHTML(def.color)}"></div>
+          </div>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="week-row">
+        <div class="week-row-header">
+          <span class="week-label">Semana de ${fmtShort(wk)}</span>
+          <span class="week-range">${range}</span>
+        </div>
+        <div class="week-metrics">${metrics || '<span style="color:var(--muted);font-size:11px">sem registros</span>'}</div>
+      </div>`;
+  });
+
+  document.getElementById('weekTable').innerHTML = rows.join('');
+}
+
+// ── Filters ──────────────────────────────────────────────────
+function renderFilters() {
+  const types = detectTypes();
+  const btns = [{ key: null, label: 'Tudo' }, ...[...types].map(t => ({ key: t, label: blockDef(t).label }))];
+  document.getElementById('filterRow').innerHTML = btns.map(b =>
+    `<button class="filter-btn${activeFilter === b.key ? ' active' : ''}" onclick="setFilter(${b.key === null ? 'null' : `'${b.key}'`})">${escHTML(b.label)}</button>`
+  ).join('');
+}
+
+function setFilter(type) {
+  activeFilter = type;
+  renderFilters();
+  renderLog();
+}
+
+// ── Full log ─────────────────────────────────────────────────
+function renderLog() {
+  const dates = sortedDates().reverse(); // most recent first
+  if (!dates.length) {
+    document.getElementById('logContainer').innerHTML = '<div class="empty">Nenhum registro ainda</div>';
+    return;
+  }
+
+  const html = dates.map(dateStr => {
+    let blocks = histData.days[dateStr] || [];
+    if (activeFilter) blocks = blocks.filter(b => b.type === activeFilter);
+    if (!blocks.length) return '';
+
+    const def_blocks = blocks.map(b => {
+      const def = blockDef(b.type);
+      const s = b.status || 'planejado';
+      return `
+        <div class="log-block ${s}">
+          <div class="log-icon" style="background:${escHTML(def.color)}">${escHTML(def.short)}</div>
+          <div class="log-info">
+            <div class="log-type" style="color:${escHTML(def.text)}">${escHTML(def.label)}</div>
+            ${b.note ? `<div class="log-note">${escHTML(b.note)}</div>` : ''}
+          </div>
+          <div class="log-status status-${s}">
+            ${s === 'feito' ? '✓ feito' : s === 'perdido' ? '✕ falhou' : 'pendente'}
+          </div>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="log-day">
+        <div class="log-date">${fmtDate(dateStr)}</div>
+        <div class="log-blocks">${def_blocks}</div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('logContainer').innerHTML = html || '<div class="empty">Sem registros para este filtro</div>';
+}
+
+// ── Helpers ──────────────────────────────────────────────────
+function sortedDates() {
+  return Object.keys(histData.days).sort();
+}
+
+function allBlocks() {
+  return Object.values(histData.days).flat();
+}
+
+function detectTypes() {
+  const s = new Set();
+  allBlocks().forEach(b => s.add(b.type));
+  return s;
+}
+
+load();
+</script>
+</body>
+</html>
