@@ -1,7 +1,8 @@
 {
   "horizon": "2026-04-03 a 2026-04-16",
   "alerts": [
-    "Seg 6/abr: pergunta de pesquisa + primeiros scripts"
+    "Seg 6/abr: pergunta de pesquisa + primeiros scripts",
+    "Seg 6/abr: personalização do apê (até de noite)"
   ],
   "days": {
     "2026-04-03": [
@@ -43,13 +44,13 @@
         "id": "c0",
         "type": "treino",
         "note": "FDS manhã",
-        "status": "planejado"
+        "status": "perdido"
       },
       {
         "id": "c1",
         "type": "dissertacao",
-        "note": "Definir pergunta + scripts",
-        "status": "planejado"
+        "note": "Terminou livro do professor + leitura de estatística",
+        "status": "feito"
       }
     ],
     "2026-04-06": [
@@ -57,12 +58,18 @@
         "id": "d0",
         "type": "trabalho",
         "note": "Presencial 9-18:30",
-        "status": "planejado"
+        "status": "feito"
       },
       {
         "id": "d1",
         "type": "treino",
         "note": "Pós-trabalho ~19h",
+        "status": "planejado"
+      },
+      {
+        "id": "x1",
+        "type": "outros",
+        "note": "Personalização do apê (até de noite)",
         "status": "planejado"
       }
     ],
