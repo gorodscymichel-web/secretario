@@ -143,7 +143,6 @@
     <div id="catList"></div>
     <button class="cat-add-btn" onclick="showAddCat()">+ Nova categoria</button>
     <div class="cat-hint">Cores e nomes salvos neste dispositivo.<br>Novos tipos ficam disponíveis ao relatar para o Claude.</div>
-    <button class="cat-add-btn" onclick="resetPin()" style="margin-top:12px;border-style:solid;color:#f87171;border-color:#450a0a">Redefinir senha de acesso</button>
   </div>
 
   <div class="footer">atualizado via Claude Code · secretarioclaude.netlify.app</div>
@@ -160,21 +159,6 @@ function escHTML(s) {
     .replace(/'/g,'&#39;');
 }
 
-function getPin() {
-  let pin = localStorage.getItem('secretario-pin');
-  if (!pin) {
-    pin = prompt('Defina uma senha de acesso ao Secretário (use no Netlify como RELATAR_SECRET):');
-    if (pin?.trim()) localStorage.setItem('secretario-pin', pin.trim());
-    else return null;
-  }
-  return pin;
-}
-
-function resetPin() {
-  if (!confirm('Redefinir senha? Você precisará atualizar RELATAR_SECRET no Netlify também.')) return;
-  localStorage.removeItem('secretario-pin');
-  getPin();
-}
 
 const DEFAULT_BLOCKS = {
   treino:      { label:'Treino',      short:'TRN', color:'#3b82f6', bg:'#1a3560', text:'#93c5fd' },
@@ -529,9 +513,6 @@ async function enviarRelato() {
   const text = box.value.trim();
   if (!text) { box.focus(); return; }
 
-  const pin = getPin();
-  if (!pin) return;
-
   btn.disabled = true;
   btn.textContent = 'Atualizando...';
   status.textContent = '';
@@ -540,7 +521,7 @@ async function enviarRelato() {
   try {
     const res = await fetch('/.netlify/functions/relatar', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Secret': pin },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: text }),
     });
 
