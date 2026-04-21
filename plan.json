@@ -1,14 +1,67 @@
 {
   "horizon": "2026-04-17 a 2026-04-30",
   "alerts": [
-    "Sex 25/abr: último dia de aulas (confirmar)",
-    "Seg 21/abr: Tiradentes — verificar se é ponto facultativo no trabalho"
+    "Seg 21/abr: Tiradentes — feriado nacional",
+    "Qui 30/abr: última aula do mês (aulas até fim de abril)",
+    "Dias 17-21: confirmar status real (treino/aula/trabalho/dissertação)"
   ],
   "days": {
-    "2026-04-17": [],
-    "2026-04-18": [],
-    "2026-04-19": [],
-    "2026-04-20": [],
+    "2026-04-17": [
+      {
+        "id": "y0",
+        "type": "trabalho",
+        "note": "HO 9-18:30",
+        "status": "planejado"
+      },
+      {
+        "id": "y1",
+        "type": "treino",
+        "note": "Pós-trabalho (sex HO sem aula)",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-18": [
+      {
+        "id": "y2",
+        "type": "treino",
+        "note": "FDS manhã",
+        "status": "planejado"
+      },
+      {
+        "id": "y3",
+        "type": "dissertacao",
+        "note": "Bloco de estudo",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-19": [
+      {
+        "id": "y4",
+        "type": "treino",
+        "note": "FDS manhã",
+        "status": "planejado"
+      },
+      {
+        "id": "y5",
+        "type": "dissertacao",
+        "note": "Bloco de estudo",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-20": [
+      {
+        "id": "y6",
+        "type": "trabalho",
+        "note": "Presencial 9-18:30",
+        "status": "planejado"
+      },
+      {
+        "id": "y7",
+        "type": "treino",
+        "note": "Pós-trabalho ~19h",
+        "status": "planejado"
+      }
+    ],
     "2026-04-21": [
       {
         "id": "x2",
@@ -107,6 +160,12 @@
         "type": "trabalho",
         "note": "HO 9-18:30",
         "status": "planejado"
+      },
+      {
+        "id": "y8",
+        "type": "aula",
+        "note": "Macro financeira 19:30",
+        "status": "planejado"
       }
     ],
     "2026-04-29": [
@@ -115,6 +174,12 @@
         "type": "trabalho",
         "note": "Presencial 9-18:30",
         "status": "planejado"
+      },
+      {
+        "id": "y9",
+        "type": "aula",
+        "note": "Técnica de pesquisa 19:30",
+        "status": "planejado"
       }
     ],
     "2026-04-30": [
@@ -122,6 +187,12 @@
         "id": "x17",
         "type": "trabalho",
         "note": "Presencial 9-18:30",
+        "status": "planejado"
+      },
+      {
+        "id": "y10",
+        "type": "aula",
+        "note": "Project finance 19:30 (última aula do mês)",
         "status": "planejado"
       }
     ]
