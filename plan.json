@@ -2,8 +2,7 @@
   "horizon": "2026-04-17 a 2026-04-30",
   "alerts": [
     "Seg 21/abr: Tiradentes — feriado nacional",
-    "Qui 30/abr: última aula do mês (aulas até fim de abril)",
-    "Dias 17-21: confirmar status real (treino/aula/trabalho/dissertação)"
+    "Qui 30/abr: última aula do mês (aulas até fim de abril)"
   ],
   "days": {
     "2026-04-17": [
@@ -11,13 +10,19 @@
         "id": "y0",
         "type": "trabalho",
         "note": "HO 9-18:30",
-        "status": "planejado"
+        "status": "perdido"
       },
       {
         "id": "y1",
         "type": "treino",
         "note": "Pós-trabalho (sex HO sem aula)",
-        "status": "planejado"
+        "status": "perdido"
+      },
+      {
+        "id": "x0",
+        "type": "outros",
+        "note": "Viagem a Guaratuba com amigos",
+        "status": "feito"
       }
     ],
     "2026-04-18": [
@@ -25,13 +30,19 @@
         "id": "y2",
         "type": "treino",
         "note": "FDS manhã",
-        "status": "planejado"
+        "status": "perdido"
       },
       {
         "id": "y3",
         "type": "dissertacao",
         "note": "Bloco de estudo",
-        "status": "planejado"
+        "status": "perdido"
+      },
+      {
+        "id": "x1",
+        "type": "outros",
+        "note": "Viagem a Guaratuba com amigos",
+        "status": "feito"
       }
     ],
     "2026-04-19": [
@@ -39,13 +50,19 @@
         "id": "y4",
         "type": "treino",
         "note": "FDS manhã",
-        "status": "planejado"
+        "status": "perdido"
       },
       {
         "id": "y5",
         "type": "dissertacao",
         "note": "Bloco de estudo",
-        "status": "planejado"
+        "status": "perdido"
+      },
+      {
+        "id": "x2",
+        "type": "outros",
+        "note": "Viagem a Guaratuba com amigos",
+        "status": "feito"
       }
     ],
     "2026-04-20": [
@@ -53,38 +70,30 @@
         "id": "y6",
         "type": "trabalho",
         "note": "Presencial 9-18:30",
-        "status": "planejado"
+        "status": "feito"
       },
       {
         "id": "y7",
         "type": "treino",
         "note": "Pós-trabalho ~19h",
-        "status": "planejado"
+        "status": "perdido"
       }
     ],
     "2026-04-21": [
       {
-        "id": "x2",
+        "id": "x3",
         "type": "outros",
         "note": "Tiradentes — feriado nacional",
-        "status": "planejado"
-      }
-    ],
-    "2026-04-22": [
-      {
-        "id": "x3",
-        "type": "trabalho",
-        "note": "Presencial 9-18:30",
-        "status": "planejado"
+        "status": "feito"
       },
       {
         "id": "x4",
-        "type": "aula",
-        "note": "Técnica de pesquisa 19:30",
-        "status": "planejado"
+        "type": "treino",
+        "note": "Treino costas e bíceps no feriado",
+        "status": "feito"
       }
     ],
-    "2026-04-23": [
+    "2026-04-22": [
       {
         "id": "x5",
         "type": "trabalho",
@@ -94,39 +103,39 @@
       {
         "id": "x6",
         "type": "aula",
+        "note": "Técnica de pesquisa 19:30",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-23": [
+      {
+        "id": "x7",
+        "type": "trabalho",
+        "note": "Presencial 9-18:30",
+        "status": "planejado"
+      },
+      {
+        "id": "x8",
+        "type": "aula",
         "note": "Project finance 19:30",
         "status": "planejado"
       }
     ],
     "2026-04-24": [
       {
-        "id": "x7",
+        "id": "x9",
         "type": "trabalho",
         "note": "HO 9-18:30",
         "status": "planejado"
       },
       {
-        "id": "x8",
+        "id": "x10",
         "type": "treino",
         "note": "Pós-trabalho (sem aula)",
         "status": "planejado"
       }
     ],
     "2026-04-25": [
-      {
-        "id": "x9",
-        "type": "treino",
-        "note": "FDS manhã",
-        "status": "planejado"
-      },
-      {
-        "id": "x10",
-        "type": "dissertacao",
-        "note": "Bloco de estudo",
-        "status": "planejado"
-      }
-    ],
-    "2026-04-26": [
       {
         "id": "x11",
         "type": "treino",
@@ -140,15 +149,29 @@
         "status": "planejado"
       }
     ],
-    "2026-04-27": [
+    "2026-04-26": [
       {
         "id": "x13",
+        "type": "treino",
+        "note": "FDS manhã",
+        "status": "planejado"
+      },
+      {
+        "id": "x14",
+        "type": "dissertacao",
+        "note": "Bloco de estudo",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-27": [
+      {
+        "id": "x15",
         "type": "trabalho",
         "note": "Presencial 9-18:30",
         "status": "planejado"
       },
       {
-        "id": "x14",
+        "id": "x16",
         "type": "treino",
         "note": "Pós-trabalho ~19h",
         "status": "planejado"
@@ -156,7 +179,7 @@
     ],
     "2026-04-28": [
       {
-        "id": "x15",
+        "id": "x17",
         "type": "trabalho",
         "note": "HO 9-18:30",
         "status": "planejado"
@@ -170,7 +193,7 @@
     ],
     "2026-04-29": [
       {
-        "id": "x16",
+        "id": "x18",
         "type": "trabalho",
         "note": "Presencial 9-18:30",
         "status": "planejado"
@@ -184,7 +207,7 @@
     ],
     "2026-04-30": [
       {
-        "id": "x17",
+        "id": "x19",
         "type": "trabalho",
         "note": "Presencial 9-18:30",
         "status": "planejado"
