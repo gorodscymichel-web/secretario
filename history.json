@@ -39,12 +39,160 @@
         "id": "c0",
         "type": "treino",
         "note": "FDS manhã",
-        "status": "planejado"
+        "status": "perdido"
       },
       {
         "id": "c1",
         "type": "dissertacao",
-        "note": "Definir pergunta + scripts",
+        "note": "Terminou livro do professor + leitura de estatística",
+        "status": "feito"
+      }
+    ],
+    "2026-04-06": [
+      {
+        "id": "d0",
+        "type": "trabalho",
+        "note": "Presencial 9-18:30",
+        "status": "feito"
+      },
+      {
+        "id": "d1",
+        "type": "treino",
+        "note": "Pós-trabalho ~19h",
+        "status": "planejado"
+      },
+      {
+        "id": "x1",
+        "type": "outros",
+        "note": "Personalização do apê (até de noite)",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-07": [
+      {
+        "id": "e0",
+        "type": "trabalho",
+        "note": "HO 9-18:30",
+        "status": "planejado"
+      },
+      {
+        "id": "e1",
+        "type": "aula",
+        "note": "Macro financeira 19:30",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-08": [
+      {
+        "id": "f0",
+        "type": "trabalho",
+        "note": "Presencial 9-18:30",
+        "status": "planejado"
+      },
+      {
+        "id": "f1",
+        "type": "aula",
+        "note": "Técnica de pesquisa 19:30",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-09": [
+      {
+        "id": "g0",
+        "type": "trabalho",
+        "note": "Presencial 9-18:30",
+        "status": "planejado"
+      },
+      {
+        "id": "g1",
+        "type": "aula",
+        "note": "Project finance 19:30",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-10": [
+      {
+        "id": "h0",
+        "type": "trabalho",
+        "note": "HO 9-18:30",
+        "status": "planejado"
+      },
+      {
+        "id": "h1",
+        "type": "treino",
+        "note": "Pós-trabalho",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-11": [
+      {
+        "id": "i0",
+        "type": "treino",
+        "note": "FDS manhã",
+        "status": "planejado"
+      },
+      {
+        "id": "i1",
+        "type": "dissertacao",
+        "note": "Bloco de estudo",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-12": [
+      {
+        "id": "j0",
+        "type": "trabalho",
+        "note": "Casamento (social)",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-13": [
+      {
+        "id": "k0",
+        "type": "treino",
+        "note": "FDS manhã",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-14": [
+      {
+        "id": "l0",
+        "type": "trabalho",
+        "note": "Presencial 9-18:30",
+        "status": "planejado"
+      },
+      {
+        "id": "l1",
+        "type": "treino",
+        "note": "Pós-trabalho ~19h",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-15": [
+      {
+        "id": "m0",
+        "type": "trabalho",
+        "note": "HO 9-18:30",
+        "status": "planejado"
+      },
+      {
+        "id": "m1",
+        "type": "aula",
+        "note": "Macro financeira 19:30",
+        "status": "planejado"
+      }
+    ],
+    "2026-04-16": [
+      {
+        "id": "n0",
+        "type": "trabalho",
+        "note": "Presencial 9-18:30",
+        "status": "planejado"
+      },
+      {
+        "id": "n1",
+        "type": "aula",
+        "note": "Técnica de pesquisa (confirmar)",
         "status": "planejado"
       }
     ]
