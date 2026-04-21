@@ -2,7 +2,7 @@
   "horizon": "2026-04-17 a 2026-04-30",
   "alerts": [
     "Seg 21/abr: Tiradentes — feriado nacional",
-    "Qui 30/abr: última aula do mês (aulas até fim de abril)"
+    "Qui 24/abr: última aula do mês (aulas encerradas antecipadamente)"
   ],
   "days": {
     "2026-04-17": [
@@ -185,9 +185,15 @@
         "status": "planejado"
       },
       {
-        "id": "y8",
-        "type": "aula",
-        "note": "Macro financeira 19:30",
+        "id": "x20",
+        "type": "treino",
+        "note": "Pós-trabalho (sem aula)",
+        "status": "planejado"
+      },
+      {
+        "id": "x21",
+        "type": "dissertacao",
+        "note": "Bloco de estudo noturno",
         "status": "planejado"
       }
     ],
@@ -199,9 +205,9 @@
         "status": "planejado"
       },
       {
-        "id": "y9",
-        "type": "aula",
-        "note": "Técnica de pesquisa 19:30",
+        "id": "x22",
+        "type": "dissertacao",
+        "note": "Bloco de estudo noturno",
         "status": "planejado"
       }
     ],
@@ -213,9 +219,9 @@
         "status": "planejado"
       },
       {
-        "id": "y10",
-        "type": "aula",
-        "note": "Project finance 19:30 (última aula do mês)",
+        "id": "x23",
+        "type": "dissertacao",
+        "note": "Bloco de estudo noturno",
         "status": "planejado"
       }
     ]
